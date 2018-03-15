@@ -1,7 +1,4 @@
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+<?php 
 /* Tibia Website */
 /* Updates experience rankings for charactesr from Tibia.com  */
 /* Definitions */
@@ -21,9 +18,12 @@ $thirtyDays = $updateDate - 2592000;
 $db->query("SELECT * FROM worlds WHERE expupdated < :expupdated ORDER BY name ASC");
 	$db->bind(":expupdated", $updateDate);
 $worlds = $db->resultset();
-$characters = json_decode(file_get_contents("https://api.tibiadata.com/v2/highscores/Antica.json"), TRUE);
-print_r($characters["highscores"]["data"]);
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start = $time;
 foreach($worlds as $currentworld){
+	$lasttime = time();
 	$character = array();
 	$world = array(
 		"name" => $currentworld["name"], 
@@ -32,20 +32,39 @@ foreach($worlds as $currentworld){
 	$db->query("SELECT expupdated FROM worlds WHERE id = :id");
 		$db->bind(":id", $world["id"]);
 	$expupdate = $db->single();
-	$characters = json_decode(file_get_contents("https://api.tibiadata.com/v2/highscores/".$world["name"].".json"), TRUE);
+		$raw = null;
+		for($i = 1; $i <= 12; $i++){ // Loop through all pages for each world
+			while(time() < $lasttime+1){
+				usleep(50000); // Just delay each pageload by 1 second (0.5 seconds at a time, to ensure we don't waste time) so we don't timeout at CipSofts end (Their ddos protection might consider this an attack otherwise.)
+			}
+			$raw = $tibia->getHighscores($world["name"], "Experience", $i);
+			foreach($raw as $row){
+				$characters[$row["rank"]] = array(
+					"name" => $row["name"],
+					"level" => $row["level"],
+					"exp" => $row["value"],
+				);
+			}
+			$lasttime = time();
+		}
 		/* Store to DB */
-		foreach($characters["highscores"]["data"] as $rank => $data) {
+		$storedrows = 0;
+
+		foreach($characters as $rank => $data) {
 			if (strlen($data["name"]) > 0){
 				$number = 1;
+
+			#print_r($data);
 
 			/* Check if character exits */
 			$name = $data["name"];
 			/* Deleted = 0, as we need to create a new player if a player with a certain name exists already */
 			$db->query("SELECT id FROM players WHERE name = :name AND deleted = 0");
-				$db->bind(":name", $name);
+			$db->bind(":name", $name);
 			$charid = $db->single();
+			#print_r($charid);
 			if (!$charid && !empty($name)) {
-				/* Save character to DB
+				/* Save character to DB 
 					-- Todo: Check for OLD names to merge history.
 				*/
 				$db->query("INSERT INTO players (name, worldid) VALUES(:name, :wid)");
@@ -83,21 +102,21 @@ foreach($worlds as $currentworld){
 			$lastUpdate = $changes;
 			if (!$lastUpdate || $lastUpdate["date"] != $updateDate) {
 				$db->query("INSERT INTO experiencehistory (characterid, worldid, date, experience, level, rank, rankchange, experiencechange) VALUES(:charid, :worldid, :date, :experience, :level, :rank, :rankchange, :experiencechange)");
-					$db->bind(":charid", $charid["id"]);
-					$db->bind(":worldid", $world["id"]);
-					$db->bind(":date", $updateDate);
-					$db->bind(":experience", $data["points"]);
-					$db->bind(":level", $data["level"]);
-					$db->bind(":rank", $rank);
-					$db->bind(":rankchange", $rankchange);
-					$db->bind(":experiencechange", $expchange);
+				$db->bind(":charid", $charid["id"]);
+				$db->bind(":worldid", $world["id"]);
+				$db->bind(":date", $updateDate);
+				$db->bind(":experience", $data["exp"]);
+				$db->bind(":level", $data["level"]);
+				$db->bind(":rank", $rank);
+				$db->bind(":rankchange", $rankchange);
+				$db->bind(":experiencechange", $expchange);
 				$db->execute();
 
 				/* Calculate daily, weekly and monthly experience */
 				$db->query("SELECT experiencechange, date FROM experiencehistory WHERE date >= :month and date != :today and characterid = :charid LIMIT 29");
-					$db->bind(":month", $thirtyDays);
-					$db->bind(":today", $updateDate);
-					$db->bind(":charid", $charid["id"]);
+				$db->bind(":month", $thirtyDays);
+				$db->bind(":today", $updateDate);
+				$db->bind(":charid", $charid["id"]);
 				$history = $db->resultset();
 				$weeklyExp = $expchange; # Start on experience change so we get todays values too!
 				$monthlyExp = $expchange;
@@ -115,10 +134,10 @@ foreach($worlds as $currentworld){
 				}
 				/* At this point we should have the values. Lets store them */
 				$db->query("UPDATE players SET dailychange = :daily, weeklychange = :weekly, monthlychange = :monthly WHERE id = :charid");
-					$db->bind(":daily", $expchange);
-					$db->bind(":weekly", $weeklyExp);
-					$db->bind(":monthly", $monthlyExp);
-					$db->bind(":charid", $charid["id"]);
+				$db->bind(":daily", $expchange);
+				$db->bind(":weekly", $weeklyExp);
+				$db->bind(":monthly", $monthlyExp);
+				$db->bind(":charid", $charid["id"]);
 				$db->execute();
 
 			} else {
@@ -144,3 +163,9 @@ foreach($worlds as $currentworld){
 		$raw = array();
 		$characters = array();
 }
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$finish = $time;
+$total_time = round(($finish - $start), 4);
+echo 'Executed in '.$total_time.' seconds.';

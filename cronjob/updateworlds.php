@@ -18,7 +18,7 @@ foreach($worlds_json["worlds"]["allworlds"] as $world){
 	$data = $db->single();
 	if(!$data){
 		/* Save previously unregistred world */
-		$db->query("INSERT INTO worlds (id, name, updated, type, location) VALUES(null, :name, :updated, :type, :location)");
+		$db->query("INSERT INTO worlds (id, name, updated, type, location, expupdated) VALUES(null, :name, :updated, :type, :location, 0)");
 			$db->bind(":name", $world["name"]);
 			$db->bind(":updated", $updateDate);
 			$db->bind(":type", $world["worldtype"]);
