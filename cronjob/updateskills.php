@@ -62,16 +62,12 @@ $loadedRows = 0;
 foreach($skillsAndStorage as $skill => $storage){
     foreach($worlds as $currentWorld){
         /* Check if we need to update */
-        #$colName = $currentWorld[""]
-       # $db->query("SELECT ");
         $fourtyhours = time() - 60*60*48;
-        for($i = 1; $i <= 12; $i++) {
-            while(time() < $lasttime+1){
-                // Just delay each pageload by 1 second so we don't timeout at CipSofts end (Their ddos protection might consider this an attack otherwise.)
-            }
-            $lasttime = time();
-            $raw = $tibia->getHighscores($currentWorld["name"], $skill, $i);
-            foreach ($raw as $row) {
+        #for($i = 1; $i <= 12; $i++) {
+            #$raw = $tibia->getHighscores($currentWorld["name"], $skill, $i);
+            $raw = json_decode(file_get_contents("https://api.tibiadata.com/v2/highscores/".$currentWorld["name"]."/".$skill.".json"), TRUE);
+            echo "https://api.tibiadata.com/v2/highscores/".$world["name"]."/".$skill.".json";
+            foreach ($raw["highscores"]["data"] as $row) {
                 /* Check if player exists */
                 if(!empty($row["name"])){
                 $db->query("SELECT id, worldid FROM players WHERE name = :name");
@@ -86,20 +82,20 @@ foreach($skillsAndStorage as $skill => $storage){
                     /* Player exists, check if world matches AND if world id match. */
                     $db->query("UPDATE players SET ".$storage["skill"]." = :value, ".$storage["rank"]." = :rank WHERE id = :id");
                         $db->bind(":id", $cData["id"]);
-                        $db->bind(":value", $row["value"]);
+                        $db->bind(":value", $row["level"]);
                         $db->bind(":rank", $row["rank"]);
                     $db->execute();
                 } else { # New player
                     $db->query("INSERT INTO players (name, worldid, " . $storage["skill"] . ", " . $storage["rank"] . ") VALUES(:name, :world, :value, :rank)");
                     $db->bind(":name", $row["name"]);
                     $db->bind(":world", $currentWorld["id"]);
-                    $db->bind(":value", $row["value"]);
+                    $db->bind(":value", $row["level"]);
                     $db->bind(":rank", $row["rank"]);
                     $db->execute();
                 }
                 }
             }
-        }
+        #}
         /* Write to Cronlog */
         $db->query("INSERT into cronlog (type, text, date) VALUES(:type, :text, :date)");
             $db->bind(":type", 2);
