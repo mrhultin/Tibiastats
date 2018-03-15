@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu1
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Värd: localhost
--- Tid vid skapande: 21 jun 2016 kl 12:01
--- Serverversion: 5.7.12-0ubuntu1
--- PHP-version: 7.0.4-7ubuntu2.1
+-- Värd: 127.0.0.1
+-- Tid vid skapande: 15 mars 2018 kl 12:47
+-- Serverversion: 10.1.13-MariaDB
+-- PHP-version: 7.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,10 +17,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Databas: `Tibiascanner`
+-- Databas: `tibiascanner`
 --
-CREATE DATABASE IF NOT EXISTS `Tibiascanner` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `Tibiascanner`;
 
 -- --------------------------------------------------------
 
@@ -28,7 +26,6 @@ USE `Tibiascanner`;
 -- Tabellstruktur `contacts`
 --
 
-DROP TABLE IF EXISTS `contacts`;
 CREATE TABLE `contacts` (
   `id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
@@ -43,7 +40,6 @@ CREATE TABLE `contacts` (
 -- Tabellstruktur `cronlog`
 --
 
-DROP TABLE IF EXISTS `cronlog`;
 CREATE TABLE `cronlog` (
   `id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
@@ -57,7 +53,6 @@ CREATE TABLE `cronlog` (
 -- Tabellstruktur `experiencehistory`
 --
 
-DROP TABLE IF EXISTS `experiencehistory`;
 CREATE TABLE `experiencehistory` (
   `id` int(11) NOT NULL,
   `characterid` int(32) NOT NULL,
@@ -76,7 +71,6 @@ CREATE TABLE `experiencehistory` (
 -- Tabellstruktur `news`
 --
 
-DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
   `id` int(11) NOT NULL,
   `title` varchar(128) NOT NULL,
@@ -90,7 +84,6 @@ CREATE TABLE `news` (
 -- Tabellstruktur `players`
 --
 
-DROP TABLE IF EXISTS `players`;
 CREATE TABLE `players` (
   `id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
@@ -111,7 +104,10 @@ CREATE TABLE `players` (
   `clubrank` int(11) NOT NULL DEFAULT '0',
   `shielding` int(11) NOT NULL DEFAULT '0',
   `shieldingrank` int(11) NOT NULL DEFAULT '0',
-  `profileupdated` int(11) NOT NULL DEFAULT '0'
+  `profileupdated` int(11) NOT NULL DEFAULT '0',
+  `dailychange` int(11) NOT NULL,
+  `weeklychange` int(11) NOT NULL,
+  `monthlychange` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -120,7 +116,6 @@ CREATE TABLE `players` (
 -- Tabellstruktur `players_deleted`
 --
 
-DROP TABLE IF EXISTS `players_deleted`;
 CREATE TABLE `players_deleted` (
   `id` int(11) NOT NULL,
   `charid` int(11) NOT NULL,
@@ -133,7 +128,6 @@ CREATE TABLE `players_deleted` (
 -- Tabellstruktur `player_deaths`
 --
 
-DROP TABLE IF EXISTS `player_deaths`;
 CREATE TABLE `player_deaths` (
   `id` int(11) NOT NULL,
   `date` int(11) NOT NULL,
@@ -148,13 +142,12 @@ CREATE TABLE `player_deaths` (
 -- Tabellstruktur `worlds`
 --
 
-DROP TABLE IF EXISTS `worlds`;
 CREATE TABLE `worlds` (
   `id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
   `updated` int(11) DEFAULT NULL,
   `type` varchar(64) DEFAULT NULL,
-  `expupdated` int(32) DEFAULT NULL,
+  `expupdated` int(32) DEFAULT '0',
   `location` varchar(64) DEFAULT NULL,
   `magicupdated` int(11) DEFAULT NULL,
   `swordupdated` int(11) DEFAULT NULL,
@@ -230,42 +223,42 @@ ALTER TABLE `worlds`
 -- AUTO_INCREMENT för tabell `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT för tabell `cronlog`
 --
 ALTER TABLE `cronlog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4936;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT för tabell `experiencehistory`
 --
 ALTER TABLE `experiencehistory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=663384;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT för tabell `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT för tabell `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97714;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT för tabell `players_deleted`
 --
 ALTER TABLE `players_deleted`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1195;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT för tabell `player_deaths`
 --
 ALTER TABLE `player_deaths`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=480755;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT för tabell `worlds`
 --
 ALTER TABLE `worlds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
