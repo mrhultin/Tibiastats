@@ -1,0 +1,6 @@
+<div class="ui segment"><h3>About TibiaScanner</h3>
+<p>TibiaScanner is a website dedicated to gathering and sorting through various statistics related to the MMORPG Tibia (Tibia.com).</p>
+<p>What started out as a fun learning project quickly evolved into the site you are seeing here today, with features being added on a weekly basis at first. Starting out with experience statistics and moving onto skills and other aspects of Tibia with time. This site is a non-profit site, we will enable adds when we are closing in on a server renewal, if there's nothing that needs to be payed in the near future you should not see any adds at all. Please be sure to report any inappropriate adds to adds@tibiascanner.com</p>
+    <p>We always welcome new ideas and suggestsions from you, our users. While we cannot guarantee a feature request will be made reality, as there are technical and resources to consider aswell as usability ones, we'll read them all.</p>
+    <p>Unlike similar sites, we are focusing on transparancy in why our data might, at times, be offset that found on Tibia.com, why numbers could be incorrect etc, we feel that while we know the limitations of our system, Tibia.com website and so on, you our users, might have little to no idea how all of this works, why would you? So that's why we try to explain stuff before you even have to ask.</p>
+    </div>
