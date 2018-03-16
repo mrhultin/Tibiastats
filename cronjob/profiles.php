@@ -17,7 +17,7 @@ include('../core/lib/tibiaparse.php');
 $tibia = new TibiaParser;
 $updateDate = mktime(4, 0, 0, date("m"), date("d"), date("Y"));
 /* Select 500 profiles sorted by profiledupdated column */
-$db->query("SELECT * FROM players WHERE deleted = 0 ORDER BY profileupdated ASC LIMIT 2500");
+$db->query("SELECT * FROM players WHERE deleted = 0 ORDER BY profileupdated ASC LIMIT 10000");
 $players = $db->resultset();
 foreach($players as $player) {
     $name = str_replace(" ", "%20", $player["name"]);
@@ -38,7 +38,17 @@ foreach($players as $player) {
         $characterSex = getSexId($profileData["data"]["sex"]);
         echo $characterSex.' - '.$profileData["data"]["sex"];
         foreach($profileData["deaths"] as $death){
-            #print_r($death);
+            $db->query("SELECT id FROM player_deaths WHERE date = :date");
+                $db->bind(":date", strtotime($death["date"]));
+            $db->execute();
+            if($db->rowcount() == 0){
+                $db->query("INSERT INTO player_deaths (date, reason, level, charid) VALUES(:date, :reason, :level, :charid)");
+                    $db->bind(":date", $death["date"]);
+                    $db->bind(":reason", $death["reason"]);
+                    $db->bind(":level", $death["level"]);
+                    $db->bind(":charid", $player["id"]);
+                $db->execute();
+            }
         }
         $db->query("Update players SET profileupdated = :updated, vocation = :voc, level = :level, sex = :sex WHERE id = :id");
             $db->bind(":updated", time());
