@@ -38,12 +38,13 @@ foreach($players as $player) {
         $characterSex = getSexId($profileData["data"]["sex"]);
         echo $characterSex.' - '.$profileData["data"]["sex"];
         foreach($profileData["deaths"] as $death){
+            $date = strtotime($death["date"]["date"]);
             $db->query("SELECT id FROM player_deaths WHERE date = :date");
-                $db->bind(":date", $death["date"]);
+                $db->bind(":date", $date);
             $db->execute();
             if($db->rowcount() == 0){
                 $db->query("INSERT INTO player_deaths (date, reason, level, charid) VALUES(:date, :reason, :level, :charid)");
-                    $db->bind(":date", $death["date"]);
+                    $db->bind(":date", $date);
                     $db->bind(":reason", $death["reason"]);
                     $db->bind(":level", $death["level"]);
                     $db->bind(":charid", $player["id"]);
