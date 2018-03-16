@@ -36,7 +36,6 @@ foreach($players as $player) {
         # Player exists
         $vocation = getVocationId($profileData["data"]["vocation"]);
         $characterSex = getSexId($profileData["data"]["sex"]);
-        echo $characterSex.' - '.$profileData["data"]["sex"];
         foreach($profileData["deaths"] as $death){
             $date = strtotime($death["date"]["date"]); // One really strange thing in Tibiadata.com API.
             $db->query("SELECT id FROM player_deaths WHERE date = :date");
