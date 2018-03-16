@@ -47,6 +47,11 @@ $skillsAndStorage = array(
         "rank"  => "shieldingrank",
         "updated" => "shieldingupdated"
     ),
+    "achievements" => array(
+        "skill" => "achievements",
+        "rank"  => "achievementsrank",
+        "updated" => "achievementsupdated"
+    ),
 );
 
 $db->query("SELECT id, name FROM worlds ORDER BY name ASC");

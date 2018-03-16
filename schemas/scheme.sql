@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Värd: 127.0.0.1
--- Tid vid skapande: 15 mars 2018 kl 12:47
+-- Tid vid skapande: 16 mars 2018 kl 16:20
 -- Serverversion: 10.1.13-MariaDB
 -- PHP-version: 7.0.8
 
@@ -104,6 +104,9 @@ CREATE TABLE `players` (
   `clubrank` int(11) NOT NULL DEFAULT '0',
   `shielding` int(11) NOT NULL DEFAULT '0',
   `shieldingrank` int(11) NOT NULL DEFAULT '0',
+  `achievements` int(11) NOT NULL,
+  `achievementsrank` int(11) NOT NULL,
+  `achievementsupdated` int(11) NOT NULL,
   `profileupdated` int(11) NOT NULL DEFAULT '0',
   `dailychange` int(11) NOT NULL,
   `weeklychange` int(11) NOT NULL,
@@ -228,12 +231,12 @@ ALTER TABLE `contacts`
 -- AUTO_INCREMENT för tabell `cronlog`
 --
 ALTER TABLE `cronlog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=846;
 --
 -- AUTO_INCREMENT för tabell `experiencehistory`
 --
 ALTER TABLE `experiencehistory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45613;
 --
 -- AUTO_INCREMENT för tabell `news`
 --
@@ -243,7 +246,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT för tabell `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52130;
 --
 -- AUTO_INCREMENT för tabell `players_deleted`
 --
@@ -258,7 +261,7 @@ ALTER TABLE `player_deaths`
 -- AUTO_INCREMENT för tabell `worlds`
 --
 ALTER TABLE `worlds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
