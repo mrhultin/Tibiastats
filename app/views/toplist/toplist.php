@@ -8,6 +8,7 @@
         <a href="/toplist/club/" class="ui  <?php if($toplistName == "Club"){ echo 'active '; }; ?>button primary">Club</a>
         <a href="/toplist/distance/" class="ui  <?php if($toplistName == "Distance"){ echo 'active '; }; ?>button primary">Distance</a>
         <a href="/toplist/shielding/" class="ui  <?php if($toplistName == "Shielding"){ echo 'active '; }; ?>button primary">Shielding</a>
+        <a href="/toplist/achievements/" class="ui <?php if($toplistName == "Achievements"){ echo 'active ';};?>button primary">Achievements</a>
     </div>
     <?php
     echo $toplisttable;

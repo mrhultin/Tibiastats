@@ -185,4 +185,26 @@ class Toplist extends Controller {
 		$this->data["toplisttable"] .= '</table>';
 		$this->views->template("toplist/toplist", $this->data);
 	}
+
+	public function achievements(){
+		$this->data["toplistName"] = "Achievements";
+		$this->data["pageTitle"] = "Achievements top 500";
+		$this->data["toplisttable"] = '<table class="ui celled striped table compact">
+		<thead>
+			<th width="6%">Rank</th>
+			<th width="22%">Name</th>
+			<th width="30%">Level</th>
+			<th width="10%">World</th>
+		</thead>';
+		$i = 1;
+		$this->db->query("SELECT players.name, players.achievements, worlds.name as worldname FROM players JOIN worlds ON players.worldid = worlds.id WHERE players.deleted = 0 ORDER BY achievements DESC LIMIT 500");
+		$topskill = $this->db->resultset();
+
+		foreach($topskill as $row){
+			$this->data["toplisttable"] .= '<tr><td>'.$i.'</td><td><a href="/character/view/'.$row["name"].'" />'.$row["name"].'</a></td><td>'.$row["achievements"].'</td><td><a href="/worlds/view/'.$row["worldname"].'">'.$row["worldname"].'</a></td></tr>';
+			$i++;
+		}
+		$this->data["toplisttable"] .= '</table>';
+		$this->views->template("toplist/toplist", $this->data);
+	}
 }
