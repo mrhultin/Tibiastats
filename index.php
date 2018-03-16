@@ -3,12 +3,8 @@
 	Error reporting
 */
 session_start();
-if($_SERVER["HTTP_HOST"] == "localhost" or $_SERVER['REMOTE_ADDR'] == "79.136.69.128"){
-	#define('ENVIRONMENT', 'development');
-} else {
-	#define('ENVIRONMENT', 'production');
-}
-	define('ENVIRONMENT', 'development');
+
+define('ENVIRONMENT', 'development');
 if(defined('ENVIRONMENT')){
 	switch (ENVIRONMENT) {
 		case 'development':
