@@ -21,6 +21,8 @@ $thirtyDays = $updateDate - 2592000;
 $db->query("SELECT * FROM worlds WHERE expupdated < :expupdated ORDER BY name ASC");
 	$db->bind(":expupdated", $updateDate);
 $worlds = $db->resultset();
+$characters = json_decode(file_get_contents("https://api.tibiadata.com/v2/highscores/Antica.json"), TRUE);
+print_r($characters["highscores"]["data"]);
 foreach($worlds as $currentworld){
 	$character = array();
 	$world = array(
@@ -66,7 +68,7 @@ foreach($worlds as $currentworld){
 				}
 				if ($changes["experience"] > 0) {
 					/* This prevents characters full EXP from being listed as a gain */
-					$expchange = $data["exp"] - $changes["experience"];
+					$expchange = $data["points"] - $changes["experience"];
 				}
 			}
 			/* Update characters level in players table */
