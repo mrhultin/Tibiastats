@@ -39,7 +39,7 @@ foreach($players as $player) {
         echo $characterSex.' - '.$profileData["data"]["sex"];
         foreach($profileData["deaths"] as $death){
             $db->query("SELECT id FROM player_deaths WHERE date = :date");
-                $db->bind(":date", strtotime($death["date"]));
+                $db->bind(":date", $death["date"]);
             $db->execute();
             if($db->rowcount() == 0){
                 $db->query("INSERT INTO player_deaths (date, reason, level, charid) VALUES(:date, :reason, :level, :charid)");

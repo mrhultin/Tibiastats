@@ -36,6 +36,7 @@
     <i class="warning icon"></i>
    These numbers are not exact representations of characters in existance. Only characters our system knows about that are level 10 or higher!
 </div>
+
 <div class="ui segment">
     <div class="ui segment">
         <h3>Highest daily gain</h3>
