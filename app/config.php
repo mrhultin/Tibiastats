@@ -13,3 +13,7 @@ $config["dbCredentials"] = array(
 /* reCAPTCHA */
 $config["reCaptcha_public_key"] = "key";
 
+/*
+*/
+$config["gender"] = array("male", "female");
+$config["vocations"] = array("none", "knight", "elite knight", "druid", "elder druid", "paladin", "royal paladin", "sorcerer", "master sorcerer");
