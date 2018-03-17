@@ -6,6 +6,9 @@
         <div class="value">
            <?php echo $druidCount; ?>
         </div>
+        <div class="label">
+            <?php echo $druidPercent; ?>%
+        </div>
     </div>
     <div class="ui segment statistic">
         <div class="label">
@@ -13,6 +16,9 @@
         </div>
         <div class="value">
             <?php echo $sorcCount; ?>
+        </div>
+        <div class="label">
+            <?php echo $sorcererPercent; ?>%
         </div>
     </div>
     <div class="ui segment statistic">
@@ -22,6 +28,9 @@
         <div class="value">
             <?php echo $pallyCount; ?>
         </div>
+        <div class="label">
+            <?php echo $pallyPercent; ?>%
+        </div>
     </div>
     <div class="ui segment statistic">
         <div class="label">
@@ -29,6 +38,9 @@
         </div>
         <div class="value">
             <?php echo $knightCount; ?>
+        </div>
+        <div class="label">
+            <?php echo $knightPercent; ?>%
         </div>
     </div>
 </div>

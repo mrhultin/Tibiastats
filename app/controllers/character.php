@@ -12,6 +12,8 @@ class Character extends Controller {
 
 	public function index($vars = '')
 	{
+
+		$vocationSum = 0;
 		$this->data["pageTitle"] = "Character overview";
 		$this->db->query("SELECT experiencehistory.id, players.name as charname, worlds.name, experiencechange FROM experiencehistory
  		LEFT JOIN players ON experiencehistory.characterid = players.id
@@ -27,15 +29,25 @@ class Character extends Controller {
 		$this->db->query("SELECT count(id) as num FROM players WHERE vocation = 1 OR vocation = 5");
 		$data = $this->db->single();
 		$this->data["druidCount"] = number_format($data["num"]);
+			$vocationSum += number_format($data["num"]);
 		$this->db->query("SELECT count(id) as num FROM players WHERE vocation = 2 OR vocation = 6");
 		$data = $this->db->single();
 		$this->data["sorcCount"] = number_format($data["num"]);
+			$vocationSum += number_format($data["num"]);
 		$this->db->query("SELECT count(id) as num FROM players WHERE vocation = 3 OR vocation = 7");
 		$data = $this->db->single();
 		$this->data["pallyCount"] = number_format($data["num"]);
+			$vocationSum += number_format($data["num"]);
 		$this->db->query("SELECT count(id) as num FROM players WHERE vocation = 4 OR vocation = 8");
 		$data = $this->db->single();
 		$this->data["knightCount"] = number_format($data["num"]);
+			$vocationSum += number_format($data["num"]);
+
+		/* Vocation percentage */
+			$this->data["druidPercent"] = round(calcPercent($vocationSum, $this->data["druidCount"]), 2);
+			$this->data["sorcererPercent"] = round(calcPercent($vocationSum, $this->data["sorcCount"]), 2);
+			$this->data["pallyPercent"] = round(calcPercent($vocationSum, $this->data["pallyCount"]), 2);
+			$this->data["knightPercent"] = round(calcPercent($vocationSum, $this->data["knightCount"]), 2);
 		$this->views->template("character/home", $this->data);
 	}
 

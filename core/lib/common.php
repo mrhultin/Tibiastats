@@ -126,3 +126,11 @@ function calulatePartyDiffrence($level){
 function write_log($vars){
 	die("Log file logic missing!");
 }
+
+function calcPercent($sum, $part){
+	if($sum > 0 && $part > 0) {
+		return ($part * 100) / $sum;
+	} else {
+		return 0;
+	}
+}
