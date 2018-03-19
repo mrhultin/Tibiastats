@@ -43,10 +43,21 @@
             <?php echo $knightPercent; ?>%
         </div>
     </div>
+
+<style>
+    #warning-icon {
+        background-color: #f9ca99;
+
+        opacity:1 !important;
+    }
+    #warning-icon i {
+        color:#900505;
+    }
+</style>
 </div>
 <div class="ui bottom attached warning message">
-    <i class="warning icon"></i>
-   These numbers are not exact representations of characters in existance. Only characters our system knows about that are level 10 or higher!
+    <button class="circular ui icon button disabled" id="warning-icon"><i class="warning icon"></i></button>
+   These numbers are not exact representations of characters in existance. CipSoft releases anual reports containing exact numbers!
 </div>
 
 <div class="ui segment">
@@ -67,7 +78,6 @@
         <table class="ui striped table">
             <?php
                 foreach($toploss as $row){
-                    #print_r($row);
                     echo '<tr>
     <td><a href="/character/view/'.$row["charname"].'">'.$row["charname"].'</a></td>
     <td>'.formatExpChange($row["experiencechange"], 0).'</td>
