@@ -35,3 +35,25 @@ foreach($worlds_json["worlds"]["allworlds"] as $world){
 		$db->execute();
 	}
 }
+
+/* Check for worlds that no longer exists by checking if they been updated in the past week. If not, we remove them.*/
+$lastUpdated = mktime(4, 0, 0, date("m"), date("d"), date("Y")) - (7*24*60*60));
+$db->query("SELECT id, name FROM worlds WHERE updated <= :updated");
+	$db->bind(":updated", $lastUpdated);
+$worlds = $db->resultset();
+foreach($worlds as $world){
+	$exists = false;
+	/* Let us check if world exists, and something else is preventing update */
+	foreach($worlds_json["worlds"]["allworlds"] as $tmp){
+		if($world["name"] == $tmp["name"]){
+			// World exists still.
+			$exists = true;
+		}
+	}
+	if(!$exists){
+		// We remove the world from our records.
+		$db->query("DELETE * FROM worlds WHERE id = :id");
+			$db->bind(":id", $world["id"]);
+		$db->execute();
+	}
+}
