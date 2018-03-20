@@ -43,6 +43,16 @@ class Character extends Controller {
 		$this->data["knightCount"] = number_format($data["num"]);
 			$vocationSum += number_format($data["num"]);
 
+		/* Online Times */
+		$this->db->query("SELECT * FROM onlineplayers WHERE date >= :date");
+			$this->db->bind(":date", time()-604800); // Get all from the past week
+		foreach($this->db->resultset() as $row){
+			$this->data["onlineTimes"][] = array(
+				"date" => $row["date"],
+				"value" => $row["value"],
+			);
+		}
+		#array_reverse($this->data["onlinetimes"]);
 		/* Vocation percentage */
 			$this->data["druidPercent"] = round(calcPercent($vocationSum, $this->data["druidCount"]), 2);
 			$this->data["sorcererPercent"] = round(calcPercent($vocationSum, $this->data["sorcCount"]), 2);

@@ -1,4 +1,11 @@
-<?php
+<script>
+    var timeout = setTimeout("location.reload(true);",100000);
+    function resetTimeout() {
+        clearTimeout(timeout);
+        timeout = setTimeout("location.reload(true);",100000);
+    }
+</script><?php
+echo time();
 /*
  * This Cronjob executes frequently updating to the total numbers of players online in Tibia.
  */
