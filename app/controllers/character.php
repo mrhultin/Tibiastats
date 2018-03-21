@@ -52,7 +52,6 @@ class Character extends Controller {
 				"value" => $row["value"],
 			);
 		}
-		#array_reverse($this->data["onlinetimes"]);
 		/* Vocation percentage */
 			$this->data["druidPercent"] = round(calcPercent($vocationSum, $this->data["druidCount"]), 2);
 			$this->data["sorcererPercent"] = round(calcPercent($vocationSum, $this->data["sorcCount"]), 2);
@@ -76,7 +75,7 @@ class Character extends Controller {
 			$this->db->bind(":name", $vars[1]);
 			$results = $this->db->single();
 			if (!$results or count($results) < 1) {
-				$this->data["pageTitle"] = "Character not found";
+				$this->data["pageTitle"] = "Character \"".$vars[1]."\" not found";
 				$this->views->template("character/characternotfound");
 			} else {
 				$this->data["deleted"] = $results["deleted"];
@@ -166,8 +165,6 @@ class Character extends Controller {
 						);
 					}
 				}
-				#print_r($exphistory[0]);
-
 
 				/* Player deaths */
 				$this->db->query("SELECT date, reason, level FROM player_deaths WHERE charid = :charid ORDER BY date DESC LIMIT 10");
@@ -180,6 +177,7 @@ class Character extends Controller {
 				$this->data["weeklyGain"] = number_format($results["weeklychange"]);
 				$this->data["weeklyAvg"] = number_format($results["weeklychange"] / 7);
 				$this->data["monthlyAvg"] = number_format($results["monthlychange"] / 30);
+
 				/* Select the characters best ever day */
 				$this->db->query("SELECT experiencechange FROM experiencehistory WHERE characterid = :charid AND experiencechange != experience ORDER BY experiencechange DESC LIMIT 1");
 				$this->db->bind(":charid", $charid);
@@ -235,11 +233,13 @@ class Character extends Controller {
 		ORDER BY
 			CASE
 				WHEN players.name LIKE :like1 THEN 1
+				WHEN players.name LIKE :like2 THEN 2
 				WHEN players.name LIKE :like2 THEN 3
 				ELSE 2
 			END");
-		$this->db->bind(":like1", $query.'%');
-		$this->db->bind(":like2", '%'.$query);
+		$this->db->bind(":like1", $query);
+		$this->db->bind(":like2", $query.'%');
+		$this->db->bind(":like3", '%'.$query);
 		$this->db->bind(":name", '%' . $query . '%');
 		$results = $this->db->resultset();
 		$json_output = array(
@@ -265,13 +265,6 @@ class Character extends Controller {
 				"description" =>  'Level '.$level.' from '.$row["name"]
 			);
 		}
-		#echo json_encode($this->data["characters"]);
-
 		echo json_encode($json_output);
 	}
 }
-/*
- action          : 'action',      // "view more" object name
-  actionText      : 'text',        // "view more" text
-  actionURL
- */
