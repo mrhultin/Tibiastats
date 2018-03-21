@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Värd: 127.0.0.1
--- Tid vid skapande: 16 mars 2018 kl 16:20
+-- Tid vid skapande: 21 mars 2018 kl 17:06
 -- Serverversion: 10.1.13-MariaDB
 -- PHP-version: 7.0.8
 
@@ -76,6 +76,18 @@ CREATE TABLE `news` (
   `title` varchar(128) NOT NULL,
   `post` longtext NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellstruktur `onlineplayers`
+--
+
+CREATE TABLE `onlineplayers` (
+  `id` int(11) NOT NULL,
+  `date` int(11) NOT NULL,
+  `value` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -194,6 +206,12 @@ ALTER TABLE `news`
   ADD UNIQUE KEY `id` (`id`);
 
 --
+-- Index för tabell `onlineplayers`
+--
+ALTER TABLE `onlineplayers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index för tabell `players`
 --
 ALTER TABLE `players`
@@ -231,32 +249,37 @@ ALTER TABLE `contacts`
 -- AUTO_INCREMENT för tabell `cronlog`
 --
 ALTER TABLE `cronlog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=846;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1634;
 --
 -- AUTO_INCREMENT för tabell `experiencehistory`
 --
 ALTER TABLE `experiencehistory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45613;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131406;
 --
 -- AUTO_INCREMENT för tabell `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT för tabell `onlineplayers`
+--
+ALTER TABLE `onlineplayers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 --
 -- AUTO_INCREMENT för tabell `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52130;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65304;
 --
 -- AUTO_INCREMENT för tabell `players_deleted`
 --
 ALTER TABLE `players_deleted`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT för tabell `player_deaths`
 --
 ALTER TABLE `player_deaths`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55683;
 --
 -- AUTO_INCREMENT för tabell `worlds`
 --
