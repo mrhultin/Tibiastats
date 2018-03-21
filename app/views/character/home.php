@@ -17,7 +17,7 @@
                     dataPoints: [
                         <?php
                            foreach($onlineTimes as $row){
-                                echo '{ label: "'.date("G:i ", $row["date"]).'", y: '.$row["value"].' },';
+                                echo '{ label: "'.date("j, n, Y G:i ", $row["date"]).'", y: '.$row["value"].' },';
                            }
 
                         ?>

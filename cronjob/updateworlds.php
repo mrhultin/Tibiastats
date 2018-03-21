@@ -37,7 +37,7 @@ foreach($worlds_json["worlds"]["allworlds"] as $world){
 }
 
 /* Check for worlds that no longer exists by checking if they been updated in the past week. If not, we remove them.*/
-$lastUpdated = mktime(4, 0, 0, date("m"), date("d"), date("Y")) - (7*24*60*60));
+$lastUpdated = mktime(4, 0, 0, date("m"), date("d"), date("Y")) - (7*24*60*60);
 $db->query("SELECT id, name FROM worlds WHERE updated <= :updated");
 	$db->bind(":updated", $lastUpdated);
 $worlds = $db->resultset();

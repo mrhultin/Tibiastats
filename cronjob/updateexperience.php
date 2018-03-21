@@ -22,7 +22,7 @@ $db->query("SELECT * FROM worlds WHERE expupdated < :expupdated ORDER BY name AS
 	$db->bind(":expupdated", $updateDate);
 $worlds = $db->resultset();
 $characters = json_decode(file_get_contents("https://api.tibiadata.com/v2/highscores/Antica.json"), TRUE);
-print_r($characters["highscores"]["data"]);
+
 foreach($worlds as $currentworld){
 	$character = array();
 	$world = array(
