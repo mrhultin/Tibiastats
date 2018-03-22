@@ -16,10 +16,11 @@
                     toolTipContent: "{label}: {y} players online.",
                     dataPoints: [
                         <?php
+                        if(!isset($onlineTimes)){
                            foreach($onlineTimes as $row){
                                 echo '{ label: "'.date("j, n, Y G:i ", $row["date"]).'", y: '.$row["value"].' },';
                            }
-
+                        }
                         ?>
                     ]
                 }
